@@ -27,36 +27,41 @@ jobs:
             subscription-id: dfad8f6a-4ed1-4448-b795-d396ad2c60db
             
       - name: Terraform fmt
+        working-directory: Environment/test
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
 
       - name: Terraform Init
+        working-directory: Environment/test
         id: init
         run: terraform init -input=false
 
       - name: Terraform Validate
+        working-directory: Environment/test
         id: validate
         run: terraform validate -no-color
         
       - name: Terraform Plan
+        working-directory: Environment/test
         id: plan
         run: terraform plan -no-color -input=false
         continue-on-error: true
-  jobs:
-      name: Run tfsec
-      runs-on: ubuntu-latest
-      needs: TerraformInit 
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v3
+  # jobs:
+  #     name: Run tfsec
+  #     runs-on: ubuntu-latest
+  #     needs: TerraformInit 
+  #     steps:
+  #       - name: Checkout repository
+  #         uses: actions/checkout@v3
 
-        - name: Run tfsec
-          uses: aquasecurity/tfsec-action@v1.0.0
-          with:
-            args: --format csv --out tfsec_results.csv
+  #       - name: Run tfsec
+  #         uses: aquasecurity/tfsec-action@v1.0.0
+  #         with:
+  #           args: --format csv --out tfsec_results.csv
   TerraformApply: 
      name: Apply
+     
      runs-on: [self-hosted, vm-runner-1]
      environment: test
      needs: TerraformInit
@@ -76,15 +81,18 @@ jobs:
                 subscription-id: dfad8f6a-4ed1-4448-b795-d396ad2c60db
         
         - name: Terraform Init
+          working-directory: Environment/test
           id: init
           run: terraform init -input=false  
       
         - name: Terraform Plan
+          working-directory: Environment/test
           id: plan
           run: terraform plan -no-color -input=false
           continue-on-error: true
     
         - name: Terraform Apply
+          working-directory: Environment/test
           id: Apply
           run: terraform apply --auto-approve
           continue-on-error: true

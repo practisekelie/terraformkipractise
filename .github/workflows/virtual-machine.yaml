@@ -1,7 +1,6 @@
 name: "VM-creation"
 
-on:
-  workflow_dispatch:  
+on: push
 
 permissions:
     id-token: write

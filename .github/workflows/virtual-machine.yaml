@@ -1,1 +1,4 @@
 name: "VM-creation"
+
+on:
+  workflow_dispatch:

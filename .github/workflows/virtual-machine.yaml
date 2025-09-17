@@ -57,7 +57,7 @@ jobs:
             args: --format csv --out tfsec_results.csv
   TerraformApply: 
      name: Apply
-     runs-on: aman-runner
+     runs-on: vm-runner-1
      environment: test
      needs: TerraformInit
      steps:
